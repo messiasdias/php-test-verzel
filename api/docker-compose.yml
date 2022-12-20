@@ -1,0 +1,39 @@
+version: "2"
+services:
+  # verzel_test_api:
+  #   container_name: verzel_test_api
+  #   privileged: true
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #   - "8010:80"
+  #   - "9010:443"
+  #   expose:
+  #     - '80'
+  #     - '443'
+  #   volumes:
+  #   - ./:/var/www/html/
+  #   - ./log:/var/log/apache2
+  #   - ./docker-setup/default.conf:/etc/apache2/sites-available/000-default.conf
+  #   links:
+  #     - verzel_test_db
+
+  verzel_test_db:
+    container_name: verzel_test_db
+    image: mariadb
+    ports:
+      - "3306:3306"
+    expose:
+      - '3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=verzel_test
+    volumes:
+      - ./docker-setup/my.cnf:/etc/my.cnf
+      - verzel_test:/var/lib/mysql
+    restart: always
+
+volumes:
+  verzel_test:
+    external: true
